@@ -1,0 +1,11 @@
+{
+  "prefix": "!",
+  "yt_api_key": "put your YouTube API here",
+  "bot_token": "put your Discord bot token here",
+  "url": "http://api.giphy.com/v1/gifs/search",
+  "pastebin": {
+    "devKey": "put your Pastebin dev key here",
+    "username": "put your Pastebin username here",
+    "password": "put your Pastebin password here"
+  }
+}

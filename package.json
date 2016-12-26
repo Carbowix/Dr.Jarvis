@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Carbowix/Dr.Jarvis#readme",
   "dependencies": {
+    "better-pastebin": "^0.3.0",
     "chalk": "^1.1.3",
     "cleverbot-node": "^0.2.4",
     "discord.js": "^10.0.1",
