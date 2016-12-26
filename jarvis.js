@@ -22,7 +22,7 @@ var gif = prefix + 'gif';
 var lmgtfyPrefix = prefix + 'lmgtfy'
 
 
-bot.login("MjU0NjM2NDIwMzc3ODcwMzQ2.CyR8SA.JMOIgc8ECLjWGOtY7H3LY94AmN4")
+bot.login("in yo Dick")
 
 
 function rnd_selection(base)
