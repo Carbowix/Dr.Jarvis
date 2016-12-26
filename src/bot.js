@@ -6,10 +6,11 @@ const request = require('superagent');
 const yt = require('ytdl-core');
 const search = require('youtube-search');
 const moment = require('moment');
+const paste = bot.paste = require('better-pastebin');
 const fs = require('fs');
 require('moment-duration-format')
 
-var config = bot.config = require('./config.json');
+var config = bot.config = require('../config.json');
 var commands = bot.commands = {};
 
 var prefix = '!';
@@ -49,8 +50,8 @@ bot.on('ready', () => {
 	console.log('Hold On.');
 	loadCommands();
 	console.log('I am Ready');
-	paste.setDevKey('xxxxxx');
-	paste.login('xxxxx', 'xxxxx', function (success, data) {
+	paste.setDevKey(config.pastebin.devKey);
+	paste.login(config.pastebin.username, config.pastebin.password, function (success, data) {
 		if (!success) {
 			console.log('Failed (' + data + ')');
 			return false;
@@ -78,25 +79,6 @@ bot.on('message', message => {
 	let args = message.content.split(' ').splice(1);
 	if (commands[command]) {
 		commands[command].run(this, message, args);
-	}
-});
-
-bot.on('message', message => {
-	let args = message.content.split(' ');
-	let name = args[1];
-	let content = args.splice(2);
-	if (message.content.startsWith(pastebinPrefix)) {
-		paste.create({
-			name: `${name}`,
-			contents: `'${content.join(' ')}'`,
-			privacy: `0`
-		}, function (success, data) {
-			if (success) {
-				message.reply('Here You Go: ' + data + '')
-			} else {
-				message.reply('Failed: (' + data + ')')
-			}
-		});
 	}
 });
 
@@ -725,6 +707,4 @@ bot.on('message', message => {
 	}
 });
 
-
-
-bot.login(config.token);
+bot.login(config.bot_token);
