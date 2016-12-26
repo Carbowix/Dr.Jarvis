@@ -20,6 +20,7 @@ var searchvideo = prefix + 'youtubevideo';
 var search = require('youtube-search');
 var gif = prefix + 'gif';
 var lmgtfyPrefix = prefix + 'lmgtfy'
+var pastebinPrefix = prefix + 'paste'
 
 
 bot.login("in yo Dick")
@@ -36,6 +37,14 @@ bot.on("ready", () => {
 	console.log("Getting Ready To Wake Up.");
 	console.log("Hold On.");
 	console.log("I am Ready");
+		paste.setDevKey("xxxxxx");
+	paste.login("xxxxx", "xxxxx", function(success, data) {
+	    if(!success) {
+	        console.log("Failed (" + data + ")");
+	        return false;
+	    }
+
+})
 });
 
 bot.on("guildMemberAdd", member => {
@@ -49,6 +58,25 @@ bot.on('guildCreate', guild => {
 bot.on("guildMemberRemove", member => {
   let guild = member.guild;
   guild.defaultChannel.sendMessage(`${member.user} Just Left Us. Come back later :smiley:`).catch(console.error);
+});
+
+bot.on("message", message => {
+	let args = message.content.split(" ");
+	let name = args[1];
+	let content = args.splice(2);
+	if (message.content.startsWith(pastebinPrefix)) {
+	paste.create({
+         name: `${name}`,
+        contents: `"${content.join(" ")}"`,
+         privacy: `0`
+			 }, function(success, data) {
+			if(success) {
+					message.reply("Here You Go: " + data + "")
+			} else {
+				message.reply("Failed: (" + data + ")")
+			}
+	});
+}
 });
 
 bot.on("message", message => {
