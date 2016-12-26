@@ -1,13 +1,19 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
-const config = require("./config.json");
 const ddiff = require('return-deep-diff');
 const chalk = require('chalk');
-const request = require('superagent')
+const request = require('superagent');
 const yt = require('ytdl-core');
-const moment = require("moment")
+const search = require('youtube-search');
+const moment = require("moment");
+const fs = require('fs');
 require("moment-duration-format")
-var prefix = ("!")
+
+var config = bot.config = require("./config.json");
+var commands = bot.commands = {};
+
+var prefix = '!';
+
 var web = 1
 var ytPrefix = prefix + 'youtube'
 var jkPrefix = prefix + 'joke'
@@ -17,24 +23,31 @@ var deletechannel = prefix + 'delete channel';
 var addvoice = prefix + 'voicechannel create';
 var deletevoice = prefix + 'voicechannel delete';
 var searchvideo = prefix + 'youtubevideo';
-var search = require('youtube-search');
 var gif = prefix + 'gif';
 var lmgtfyPrefix = prefix + 'lmgtfy'
 var pastebinPrefix = prefix + 'paste'
-
-
-bot.login(config.token);
 
 
 function rnd_selection(base) {
 	return String(arguments[Math.floor(Math.random() * arguments.length)]);
 }
 
-
+function loadCommands() {
+	fs.readdirSync('./src/commands/').forEach(file => {
+		if (file.startsWith('_') || !file.endsWith('.js')) return;
+		let command = require(`./commands/${file}`);
+		if (typeof command.run !== 'function' || typeof command.info !== 'object') {
+			console.error(`(!) Invalid command file: ${file}`);
+			return;
+		}
+		commands[command.info.name] = command;
+	});
+}
 
 bot.on("ready", () => {
 	console.log("Getting Ready To Wake Up.");
 	console.log("Hold On.");
+	loadCommands();
 	console.log("I am Ready");
 	paste.setDevKey("xxxxxx");
 	paste.login("xxxxx", "xxxxx", function (success, data) {
@@ -42,7 +55,6 @@ bot.on("ready", () => {
 			console.log("Failed (" + data + ")");
 			return false;
 		}
-
 	})
 });
 
@@ -314,116 +326,112 @@ bot.on("message", message => {
 						message.delete();
 					} else
 
-						if (command === "ping") {
-							message.channel.sendMessage('Pong!')
-								.then(m => m.edit(`**Pong! The Message took around** :stopwatch: \`${m.createdTimestamp - message.createdTimestamp}ms\``));
-							message.delete();
+
+
+						if (command === "commands") {
+							message.reply("A direct message has been sent with Instructions to you! :incoming_envelope: ");
+							message.author.sendMessage("", {
+								embed: {
+									color: rnd_selection(3447003, 14365491, 3201849, 13818670, 13577435, 7089371, 14383916),
+									author: {
+										name: bot.user.username,
+										icon_url: bot.user.avatarURL
+									},
+									thumbnail: {
+										url: (`${bot.user.avatarURL}`)
+									},
+									fields: [
+										{
+											name: "Prefix",
+											value: "The Prefix is: **!commandname**"
+										},
+									],
+									timestamp: new Date(),
+									footer: {
+										icon_url: bot.user.avatarURL,
+										text: "Created By: Dr.Jarvis. Expert of Cats"
+									}
+								}
+							});
+							message.author.sendMessage("", {
+								embed: {
+									color: rnd_selection(3447003, 14365491, 3201849, 13818670, 13577435, 7089371, 14383916),
+									author: {
+										name: bot.user.username,
+										icon_url: bot.user.avatarURL
+									},
+									thumbnail: {
+										url: (`${bot.user.avatarURL}`)
+									},
+									fields: [
+
+										{
+											name: "utilities Part 1",
+											value: '**delete channel** text -- Deletes any channel you down want.(Only Owner can do it Right Now.) Type !delete channel **channelname**\n\u200B**create channel** text -- Creates for you a Chatting Channel autmatically.(Only the Owner Can Do it Right Now.) Type !create channel **channelname**\n\u200B**serverinfo** :page_facing_up:  -- Gives you Information about the Server.\n\u200B**userinfo** :clipboard: -- Sends you details about you or any other user.\n\u200B**setgame** :video_game: -- Sets the Status of the bot to your wanted Game. '
+										},
+									],
+									timestamp: new Date(),
+									footer: {
+										icon_url: bot.user.avatarURL,
+										text: "Created By: Dr.Jarvis. Expert of Cats"
+									}
+								}
+							});
+							message.author.sendMessage("", {
+								embed: {
+									color: rnd_selection(3447003, 14365491, 3201849, 13818670, 13577435, 7089371, 14383916),
+									author: {
+										name: bot.user.username,
+										icon_url: bot.user.avatarURL
+									},
+									thumbnail: {
+										url: (`${bot.user.avatarURL}`)
+									},
+									fields: [
+
+										{
+											name: "utilities Part 2",
+											value: '**voice** :loudspeaker: -- Type !voice text and the bot will speak those words.\n\u200B**ping** :stopwatch: -- This command is to see how many Milliseconds will it takes for the bot to reply Back!\n\u200B**stats** :bar_chart:  -- It gives you the stats of the Bot.\n\u200B**eval** :currency_exchange:  --(Currently Only Owner Can Use it) It allows the bot to evaluate any math you want.\n\u200B**commands** :notebook_with_decorative_cover:  -- The bot Sends you a direct Message with the commmands List\n\u200B**announce** :mega:  --(only the owner can use it Right Now.) The Bot Repeats what you say as a announcement.\n\u200B**Moderation**\n\u200B**kick** :mans_shoe: --(Currently Fixing it) Kick Any user you want Instantly!\n\u200B**delete** :outbox_tray: --(UnderConstruction) Delete any amount of messages you want! instantly'
+										},
+									],
+									timestamp: new Date(),
+									footer: {
+										icon_url: bot.user.avatarURL,
+										text: "Created By: Dr.Jarvis. Expert of Cats"
+									}
+								}
+							});
+							message.author.sendMessage("", {
+								embed: {
+									color: rnd_selection(3447003, 14365491, 3201849, 13818670, 13577435, 7089371, 14383916),
+									author: {
+										name: bot.user.username,
+										icon_url: bot.user.avatarURL
+									},
+									thumbnail: {
+										url: (`${bot.user.avatarURL}`)
+									},
+									fields: [
+
+										{
+											name: "Fun Commands",
+											value: '**Joke** -- The Bot spreads up a joke to the people to make them Laugh :joy:\n\u200B**roastme** :punch: -- The Bot Roasts you with some words.\n\u200B**advice** :two_men_holding_hands:  -- The Bot Gives you a advice about Life.\n\u200B **cat** :cat: -- This Command Gives you random cat Pictures\n\u200B**8ball** :8ball: -- You can use this command to make the 8ball work! Good luck with the Answer! \n\u200B**add** :1234: -- Makes your bot add any numbers'
+										},
+
+										{
+											name: "Other Features",
+											value: '**Cleverbot** :nerd: , **Insults Filter** :zipper_mouth:, **Invite Filter** :no_entry:'
+										}
+									],
+									timestamp: new Date(),
+									footer: {
+										icon_url: bot.user.avatarURL,
+										text: "Created By: Dr.Jarvis. Expert of Cats"
+									}
+								}
+							});
+
 						}
-
-	if (command === "commands") {
-		message.reply("A direct message has been sent with Instructions to you! :incoming_envelope: ");
-		message.author.sendMessage("", {
-			embed: {
-				color: rnd_selection(3447003, 14365491, 3201849, 13818670, 13577435, 7089371, 14383916),
-				author: {
-					name: bot.user.username,
-					icon_url: bot.user.avatarURL
-				},
-				thumbnail: {
-					url: (`${bot.user.avatarURL}`)
-				},
-				fields: [
-					{
-						name: "Prefix",
-						value: "The Prefix is: **!commandname**"
-					},
-				],
-				timestamp: new Date(),
-				footer: {
-					icon_url: bot.user.avatarURL,
-					text: "Created By: Dr.Jarvis. Expert of Cats"
-				}
-			}
-		});
-		message.author.sendMessage("", {
-			embed: {
-				color: rnd_selection(3447003, 14365491, 3201849, 13818670, 13577435, 7089371, 14383916),
-				author: {
-					name: bot.user.username,
-					icon_url: bot.user.avatarURL
-				},
-				thumbnail: {
-					url: (`${bot.user.avatarURL}`)
-				},
-				fields: [
-
-					{
-						name: "utilities Part 1",
-						value: '**delete channel** text -- Deletes any channel you down want.(Only Owner can do it Right Now.) Type !delete channel **channelname**\n\u200B**create channel** text -- Creates for you a Chatting Channel autmatically.(Only the Owner Can Do it Right Now.) Type !create channel **channelname**\n\u200B**serverinfo** :page_facing_up:  -- Gives you Information about the Server.\n\u200B**userinfo** :clipboard: -- Sends you details about you or any other user.\n\u200B**setgame** :video_game: -- Sets the Status of the bot to your wanted Game. '
-					},
-				],
-				timestamp: new Date(),
-				footer: {
-					icon_url: bot.user.avatarURL,
-					text: "Created By: Dr.Jarvis. Expert of Cats"
-				}
-			}
-		});
-		message.author.sendMessage("", {
-			embed: {
-				color: rnd_selection(3447003, 14365491, 3201849, 13818670, 13577435, 7089371, 14383916),
-				author: {
-					name: bot.user.username,
-					icon_url: bot.user.avatarURL
-				},
-				thumbnail: {
-					url: (`${bot.user.avatarURL}`)
-				},
-				fields: [
-
-					{
-						name: "utilities Part 2",
-						value: '**voice** :loudspeaker: -- Type !voice text and the bot will speak those words.\n\u200B**ping** :stopwatch: -- This command is to see how many Milliseconds will it takes for the bot to reply Back!\n\u200B**stats** :bar_chart:  -- It gives you the stats of the Bot.\n\u200B**eval** :currency_exchange:  --(Currently Only Owner Can Use it) It allows the bot to evaluate any math you want.\n\u200B**commands** :notebook_with_decorative_cover:  -- The bot Sends you a direct Message with the commmands List\n\u200B**announce** :mega:  --(only the owner can use it Right Now.) The Bot Repeats what you say as a announcement.\n\u200B**Moderation**\n\u200B**kick** :mans_shoe: --(Currently Fixing it) Kick Any user you want Instantly!\n\u200B**delete** :outbox_tray: --(UnderConstruction) Delete any amount of messages you want! instantly'
-					},
-				],
-				timestamp: new Date(),
-				footer: {
-					icon_url: bot.user.avatarURL,
-					text: "Created By: Dr.Jarvis. Expert of Cats"
-				}
-			}
-		});
-		message.author.sendMessage("", {
-			embed: {
-				color: rnd_selection(3447003, 14365491, 3201849, 13818670, 13577435, 7089371, 14383916),
-				author: {
-					name: bot.user.username,
-					icon_url: bot.user.avatarURL
-				},
-				thumbnail: {
-					url: (`${bot.user.avatarURL}`)
-				},
-				fields: [
-
-					{
-						name: "Fun Commands",
-						value: '**Joke** -- The Bot spreads up a joke to the people to make them Laugh :joy:\n\u200B**roastme** :punch: -- The Bot Roasts you with some words.\n\u200B**advice** :two_men_holding_hands:  -- The Bot Gives you a advice about Life.\n\u200B **cat** :cat: -- This Command Gives you random cat Pictures\n\u200B**8ball** :8ball: -- You can use this command to make the 8ball work! Good luck with the Answer! \n\u200B**add** :1234: -- Makes your bot add any numbers'
-					},
-
-					{
-						name: "Other Features",
-						value: '**Cleverbot** :nerd: , **Insults Filter** :zipper_mouth:, **Invite Filter** :no_entry:'
-					}
-				],
-				timestamp: new Date(),
-				footer: {
-					icon_url: bot.user.avatarURL,
-					text: "Created By: Dr.Jarvis. Expert of Cats"
-				}
-			}
-		});
-
-	}
 
 
 	if (command === "advice") {
@@ -507,17 +515,6 @@ bot.on("message", message => {
 		message.channel.sendMessage("**Rolling The Dice** :eyes:")
 		message.channel.sendMessage(responses[Math.floor(Math.random() * responses.length)]);
 	}
-
-	if (command === "roastme") {
-		const start = ["a lazy", "a stupid", "an insecure", "an idiotic", "a slimy", "a slutty", "a smelly", "a pompous", "a communist", "a dicknose", "a pie-eating", "a racist", "an elitist", "a white trash", "a drug-loving", "a butterface", "a tone deaf", "a ugly", "a creepy", "an artless", "a bawdy", "a beslubbering", "a bootless", "a churlish", "a cockered", "a clouted", "a craven", "a currish", "a dankish", "a dissembling", "a droning", "an errant", "a fawning", "a fobbing", "a frothy", "a gleeking", "a goatfish", "a gorbellied", "an impertinent", "an infectious", "a jarring", "a loggerheaded", "a lumpish", "a mammering", "a mangled", "a mewling", "a paunchy", "a pribbling", "a puking", "a puny", "a qualling", "a rank", "a reeky", "a roguish", "a ruttish", "a saucy", "a spleeny", "a spongy", "a surly", "a tottering", "an unmuzzled", "a vain", "a venomed", "a villainous", "a warped", "a wayward", "a weedy", "a yeasty", "a lilly-livered", "a rotten", "a stinky", "a lame", "a dim-witted", "a funky", "a crusty", "a steamy", "a drizzly", "a grizzly", "a squirty", "an uptight", "a hairy", "a husky", "an arrogant", "a nippy", "a chunky", "a smelly", "a drooling", "a crusty", "a decrepic", "a stupid", "a moronic", "a greasy", "a poxy", "an ugly", "a smelly", "a putrid", "a shitty", "an assinine", "a sickening"];
-
-		const middle = ["douche", "ass", "turd", "rectum", "butt", "cock", "shit", "crotch", "bitch", "turd", "prick", "slut", "taint", "fuck", "dick", "boner", "shart", "nut", "sphincter", "base-court", "bat-fowling", "beef-witted", "beetle-headed", "boil-brained", "clapper-clawed", "clay-brained", "common-kissing", "crook-pated", "dismal-dreaming", "dizzy-eyed", "doghearted", "dread-bolted", "earth-vexing", "elf-skinned", "fat-kidneyed", "fen-sucked", "flap-mouthed", "fly-bitten", "folly-fallen", "fool-born", "full-gorged", "guts-gripping", "half-faced", "hasty-witted", "hedge-born", "hell-hated", "idle-headed", "ill-breeding", "ill-nurtured", "knotty-pated", "milk-livered", "motly-minded", "onion-eyed", "plume-plucked", "pottle-deep", "pox-marked", "reeling-ripe", "rough-hewn", "rude-growing", "rump-red", "shard-borne", "sheep-biting", "spur-galled", "swag-bellied", "tardy-gaited", "tickle-brained", "toad-spotted", "unchin-snouted", "weather-bitten", "hiney", "poop", "toot", "wedgie", "stool", "fudge", "bum", "potty", "dookie", "pudding", "sphincter", "booger", "feces", "snot", "crust", "badonk-a", "crud", "sludge", "tool", "shit-kicking", "monkey-licking", "butt-munching", "crotch-sniffing", "donkey-spanking", "fashion-illiterate", "worm-ridden", "grub-fucking", "lathered-up", "pasty-waisted", "snot-flicking", "fart-eating"];
-
-		const end = ["pilot", "canoe", "captain", "pirate", "hammer", "knob", "box", "jockey", "nazi", "waffle", "goblin", "blossom", "biscuit", "clown", "socket", "monster", "hound", "dragon", "balloon", "apple-john", "baggage", "barnacle", "bladder", "boar-pig", "bugbear", "bum-bailey", "canker-blossom", "clack-dish", "clotpole", "coxcomb", "codpiece", "death-token", "dewberry", "flap-dragon", "flax-wench", "flirt-gill", "foot-licker", "fustilarian", "giglet", "gudgeon", "haggard", "harpy", "hedge-pig", "horn-beast", "hugger-mugger", "joithead", "lewdster", "lout", "maggot-pie", "malt-worm", "mammet", "measle", "minnow", "miscreant", "moldwarp", "mumble-news", "nut-hook", "pigeon-egg", "pignut", "puttock", "pumpion", "ratsbane", "scut", "skinsmate", "strumpet", "varlot", "vassal", "whey-face", "wagtail", "squeegee", "turtle", "cabbage", "bomb", "sniffer", "binkie", "stump", "nugget", "whistle", "twig", "knuckle", "burger", "hotdog", "loaf", "freckle", "soldier", "kernal", "shingle", "warrior", "hemorrhoid", "fuckface", "asshole", "scumbucket", "toerag", "hackwack", "imbecile", "stunodigan", "maggot", "hipster", "gargabe", "jerkstore"];
-
-		message.reply(` you know what? you're nothing but ${start[Math.floor(Math.random() * start.length)]} ${middle[Math.floor(Math.random() * middle.length)]} ${end[Math.floor(Math.random() * end.length)]}.`).catch(error => console.log(error.stack));
-	}
-
 
 	if (command === "8ball") {
 		let args = message.content.split(' ');
@@ -717,3 +714,7 @@ bot.on('message', message => {
 		});
 	}
 });
+
+
+
+bot.login(config.token);
