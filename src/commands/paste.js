@@ -5,7 +5,7 @@ exports.run = function (bot, message, args) {
 
     paste.create({
         name: `${name}`,
-        contents: `'${content.join(' ')}'`,
+        contents: `'${contents.join(' ')}'`,
         privacy: `0`
     }, function (success, data) {
         if (success) {
