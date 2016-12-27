@@ -1,8 +1,9 @@
+const paste = require("better-pastebin")
 exports.run = function (bot, message, args) {
     let name = args[0];
     contents = args.splice(1);
 
-    bot.paste.create({
+    paste.create({
         name: `${name}`,
         contents: `'${content.join(' ')}'`,
         privacy: `0`
