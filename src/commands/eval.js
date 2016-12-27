@@ -26,7 +26,7 @@ if (message.author.id !== '176792365527203840') {
   }    
 
   exports.info = {
-    name: 'evaluation',
+    name: 'eval',
     usage: 'eval <terms>',
     description: 'The Bot will evaluate anything for you.'
 };   
