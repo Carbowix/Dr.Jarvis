@@ -1,5 +1,4 @@
 exports.run = function (bot, message, args) {
-    let paste = require('better-pastebin')
     let name = args[0];
     contents = args.splice(1);
 
