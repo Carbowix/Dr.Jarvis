@@ -1,0 +1,13 @@
+{
+  "imgflip_username": "killeryoyo",
+  "imgflip_password": "Killerking1234",
+  "prefix": "!",
+  "yt_api_key": "put your YouTube API here",
+  "bot_token": "MjU0NjM2NDIwMzc3ODcwMzQ2.CyR8SA.JMOIgc8ECLjWGOtY7H3LY94AmN4",
+  "url": "http://api.giphy.com/v1/gifs/search",
+  "pastebin": {
+    "devKey": "aa6c16be32b10a554f73b02eb0f1b856",
+    "username": "Jarvisbot",
+    "password": "Killerking1234"
+  }
+}
