@@ -1,7 +1,7 @@
 var search = require('youtube-search');
 var opts = {
   maxResults: 1,
-  key: 'AIzaSyCsWvBBnOQNiznYRFujzYi6yX7JysMC2x8'
+  key: 'Your API KEY for Youtube'
 };
 
 exports.run = function(bot, message, args) {
