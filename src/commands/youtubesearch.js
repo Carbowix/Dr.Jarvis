@@ -6,10 +6,17 @@ var opts = {
 
 exports.run = function(bot, message, args) {
 
+message.channel.sendMessage("**:mag_right: Searching for the Video...**").then(m => {  
 search(`${args.join(" ")}`, opts, function(err, results) {
-  if(err) return console.log(err);
- results.map(function (r) { message.reply(r.title + ': ' + r.link) })	 
-})
+  if(err)
+  {
+    return
+    m.edit(`:x: Error Has occurred. Reason: **${err}**`)
+    console.log(err);
+  }else
+ results.map(function (r) { m.edit(r.title + ': ' + r.link) })	 
+});
+});  
 };    
 
 exports.info = {
